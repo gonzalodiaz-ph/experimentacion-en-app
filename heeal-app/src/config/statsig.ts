@@ -22,11 +22,11 @@ export const STATSIG_DEFAULTS = {
       cta_text: '🎮 Duel now!',
     },
     premium_modal_config: {
-      title: 'Únete a 12.847 usuarios premium',
-      cta_text: 'Comenzar prueba gratis →',
-      show_social_proof: true,
-      show_urgency: true,
-      show_comparison: true,
+      title: 'Heeal Premium',
+      cta_text: 'Suscribirse — 4,99€/mes',
+      show_social_proof: false,
+      show_urgency: false,
+      show_comparison: false,
     },
   },
 };
