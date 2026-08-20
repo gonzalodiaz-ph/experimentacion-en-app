@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia de Referencia - Experimentacion en APP | PH School</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #555;
+      --accent: #00CC66;
+      --accent-dark: #009944;
+      --orange: #FF6B00;
+      --border: #e0e0e0;
+      --code-bg: #f5f5f5;
+      --dark-bg: #0d0d1a;
+      --section-bg: #fafafa;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      font-size: 14px;
+    }
+
+    @media print {
+      body { padding: 0; font-size: 11pt; max-width: none; }
+      .page-break { page-break-before: always; }
+      .no-print { display: none; }
+      pre { white-space: pre-wrap; word-wrap: break-word; }
+    }
+
+    /* Cover */
+    .cover {
+      text-align: center;
+      padding: 80px 20px;
+      border-bottom: 3px solid var(--accent);
+      margin-bottom: 40px;
+    }
+    .cover .module-tag {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .cover h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .cover .subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+    .cover .meta {
+      font-size: 13px;
+      color: var(--accent-dark);
+      font-weight: 500;
+    }
+
+    /* Headings */
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 40px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent);
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 24px 0 12px;
+    }
+    h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 16px 0 8px;
+    }
+
+    /* Content */
+    p { margin-bottom: 12px; }
+    ul, ol { margin-bottom: 12px; padding-left: 24px; }
+    li { margin-bottom: 4px; }
+
+    /* Code */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    pre {
+      background: var(--dark-bg);
+      color: #e0e0e0;
+      padding: 16px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
+    .code-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 13px;
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-weight: 600;
+      background: var(--section-bg);
+    }
+
+    /* Callout boxes */
+    .callout {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .callout-tip {
+      background: #e8f9ef;
+      border-left: 4px solid var(--accent);
+    }
+    .callout-warning {
+      background: #fff3e6;
+      border-left: 4px solid var(--orange);
+    }
+    .callout-info {
+      background: #e8f0fe;
+      border-left: 4px solid #4285f4;
+    }
+    .callout strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Prompt card */
+    .prompt-card {
+      background: var(--section-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .prompt-card .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .prompt-card .prompt-number {
+      background: var(--accent);
+      color: white;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .prompt-card .prompt-time {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Section divider */
+    .section-divider {
+      text-align: center;
+      margin: 48px 0 32px;
+      position: relative;
+    }
+    .section-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-divider span {
+      background: white;
+      padding: 0 16px;
+      position: relative;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    /* Practices */
+    .practice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .practice-item {
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .practice-do { background: #e8f9ef; }
+    .practice-dont { background: #ffeaea; }
+
+    @media print {
+      .practice-grid { display: block; }
+      .practice-item { margin-bottom: 8px; }
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="module-tag">Modulo 7 &middot; Experimentacion, validacion y CRO</div>
+  <h1>Experimentacion en APP</h1>
+  <div class="subtitle">Guia de referencia para alumnos</div>
+  <div class="meta">Master en Growth &middot; PH School</div>
+</div>
+
+<!-- INDICE -->
+<div class="no-print">
+  <h2>Indice</h2>
+  <ol>
+    <li><a href="#cheatsheet">Cheatsheet de referencia rapida</a></li>
+    <li><a href="#prompt1">Prompt 1 &mdash; Integrar el SDK de Statsig</a></li>
+    <li><a href="#prompt2">Prompt 2 &mdash; Generar el onboarding expres</a></li>
+    <li><a href="#prompt3">Prompt 3 &mdash; Modal premium con social proof</a></li>
+    <li><a href="#prompt4">Prompt 4 &mdash; Conectar el feature gate</a></li>
+    <li><a href="#setup">Setup de Statsig &mdash; Paso a paso</a></li>
+    <li><a href="#experiments">Configuracion de los dos experimentos</a></li>
+    <li><a href="#security">Seguridad: claves y buenas practicas</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<!-- 1. CHEATSHEET -->
+<h2 id="cheatsheet">1. Cheatsheet de referencia rapida</h2>
+
+<h3>El flujo estrategico completo</h3>
+<ol>
+  <li><strong>Problema:</strong> identifica el cuello de botella (datos cuantitativos)</li>
+  <li><strong>Diagnostico:</strong> entiende el por que (investigacion cualitativa)</li>
+  <li><strong>Referentes:</strong> mira como lo resuelven otros (benchmarks)</li>
+  <li><strong>Hipotesis:</strong> formula "Si X, entonces Y, porque Z"</li>
+  <li><strong>Cuello de botella:</strong> el equipo de desarrollo esta saturado?</li>
+  <li><strong>Solucion con IA:</strong> Cursor/Claude para generar codigo</li>
+  <li><strong>Feature flag + Statsig:</strong> lanza sin deploy</li>
+  <li><strong>Mide:</strong> lift, significancia, impacto en negocio</li>
+</ol>
+
+<h3>APIs de Statsig que usaras</h3>
+
+<p class="code-label">Feature Gates (la puerta)</p>
+<pre><code>const { value } = useGate('gate_name');
+// value === true  &rarr; el usuario ve la nueva experiencia
+// value === false &rarr; el usuario ve la version original</code></pre>
+
+<p class="code-label">Dynamic Config (el mando a distancia)</p>
+<pre><code>const config = useDynamicConfig('config_name');
+const color = config.get('button_color', '#default');
+const time  = config.get('time_limit', 30) as number;
+const show  = config.get('show_banner', false) as boolean;
+const text  = config.get('banner_text', 'Hola!') as string;</code></pre>
+
+<p class="code-label">Log de eventos (para medir)</p>
+<pre><code>client.logEvent('purchase_completed', { amount: 29.99 });
+client.logEvent('first_duel_completed', { source: 'onboarding' });
+client.logEvent('premium_purchased', { variant: 'social_proof' });</code></pre>
+
+<h3>Estructura de un prompt efectivo</h3>
+<table>
+  <tr><th>Seccion</th><th>Que incluir</th></tr>
+  <tr><td><strong>Contexto</strong></td><td>Que app, que tecnologia, que problema</td></tr>
+  <tr><td><strong>Objetivo</strong></td><td>Que quiero que genere</td></tr>
+  <tr><td><strong>Restricciones</strong></td><td>Librerias, convenciones, paleta de colores</td></tr>
+  <tr><td><strong>Formato</strong></td><td>Que quiero como output (componente completo, solo diff, etc.)</td></tr>
+</table>
+
+<h3>Flujo para lanzar un experimento</h3>
+<ol>
+  <li>Hipotesis + metrica primaria</li>
+  <li>Generar componente con Claude/Cursor</li>
+  <li>Envolver en <code>useGate()</code></li>
+  <li>Conectar a <code>useDynamicConfig()</code></li>
+  <li>Configurar experimento en Statsig</li>
+  <li>Lanzar (50/50)</li>
+  <li>Leer resultados (lift, p-value, confianza)</li>
+  <li>Promocionar ganador o descartar</li>
+  <li>Limpiar el flag</li>
+</ol>
+
+<h3>Buenas practicas vs errores frecuentes</h3>
+<div class="practice-grid">
+  <div class="practice-item practice-do">
+    <strong>Hacer</strong>
+    <ul>
+      <li>Prefijos en nombres: <code>exp_onboarding_express_duel</code></li>
+      <li>Un proposito por flag</li>
+      <li>Fecha de expiracion en cada flag</li>
+      <li>Limpiar flags al terminar</li>
+      <li>Remote Config para todo lo mutable</li>
+    </ul>
+  </div>
+  <div class="practice-item practice-dont">
+    <strong>No hacer</strong>
+    <ul>
+      <li>Anidar flags entre si</li>
+      <li>Hardcodear valores en el codigo</li>
+      <li>Lanzar sin metrica definida</li>
+      <li>Dejar flags muertos en produccion</li>
+      <li>Mezclar dos tests en un flag</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Claves de Statsig</h3>
+<table>
+  <tr><th>Clave</th><th>Para que</th><th>Donde va</th></tr>
+  <tr>
+    <td><code>client-...</code></td>
+    <td>SDK en la app (leer gates/configs)</td>
+    <td><code>src/config/statsig.ts</code></td>
+  </tr>
+  <tr>
+    <td><code>console-...</code></td>
+    <td>API y MCP (crear/modificar configs)</td>
+    <td>Variables de entorno / MCP config. <strong>Nunca en la app.</strong></td>
+  </tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<!-- 2. PROMPTS -->
+<h2 id="prompt1">2. Prompt 1 &mdash; Integrar el SDK de Statsig</h2>
+
+<div class="prompt-card">
+  <div class="prompt-header">
+    <span class="prompt-number">Prompt 1</span>
+    <span class="prompt-time">~30 segundos con Claude</span>
+  </div>
+  <p><strong>Cuando usarlo:</strong> Cuando partes de una app React Native / Expo nueva y necesitas integrar Statsig desde cero.</p>
+
+  <p class="code-label">Copia y pega esto en Claude o en Cursor</p>
+<pre><code>Tengo una app React Native con Expo (TypeScript). Necesito integrar el SDK de Statsig
+para usar feature flags, remote config y experimentos A/B.
+
+Contexto de la app:
+- App de fitness gamificada llamada Heeal
+- Entry point: App.tsx con un componente funcional simple
+- Navegacion con React Navigation (createNativeStackNavigator)
+- El usuario tiene un ID anonimo generado localmente (no hay auth todavia)
+
+Lo que necesito:
+1. Instala el SDK con el comando exacto: @statsig/js-client y @statsig/react-bindings
+2. Genera un archivo src/config/statsig.ts con la API key como constante exportable
+   (usa 'YOUR_STATSIG_CLIENT_KEY' como placeholder)
+3. Genera App.tsx modificado que:
+   - Cree un StatsigClient con un userID aleatorio (Math.random)
+   - Inicialice el cliente con initializeAsync() en un useEffect
+   - Muestre un ActivityIndicator mientras el cliente inicializa
+   - Envuelva la navegacion en &lt;StatsigProvider client={...}&gt;
+
+Restricciones:
+- Solo usar @statsig/js-client y @statsig/react-bindings (no la version antigua statsig-react-native)
+- El cliente debe inicializarse una sola vez (fuera del componente)
+- Manejar el estado de carga con useState(false) -> true al resolver
+
+Formato de respuesta: primero el comando de instalacion, luego statsig.ts, luego App.tsx completo.</code></pre>
+
+  <h4>Resultado esperado</h4>
+  <p class="code-label">1. Comando de instalacion</p>
+  <pre><code>npx expo install @statsig/js-client @statsig/react-bindings</code></pre>
+
+  <p class="code-label">2. src/config/statsig.ts</p>
+  <pre><code>export const STATSIG_CLIENT_KEY = 'YOUR_STATSIG_CLIENT_KEY';</code></pre>
+
+  <p>3. <code>App.tsx</code> con <code>StatsigProvider</code> envolviendo la navegacion (ver <code>App.tsx</code> del proyecto como referencia).</p>
+
+  <div class="callout callout-tip">
+    <strong>Nota para la practica</strong>
+    Sustituir <code>'YOUR_STATSIG_CLIENT_KEY'</code> con tu Client SDK Key real de Statsig (prefijo <code>client-</code>). El <code>userID</code> aleatorio es suficiente para practicar; en produccion vendria del sistema de autenticacion.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2 id="prompt2">3. Prompt 2 &mdash; Generar el onboarding expres</h2>
+
+<div class="prompt-card">
+  <div class="prompt-header">
+    <span class="prompt-number">Prompt 2</span>
+    <span class="prompt-time">~20 segundos con Claude</span>
+  </div>
+  <p><strong>Cuando usarlo:</strong> Para generar la variante experimental del onboarding (Experimento 1).</p>
+
+  <p class="code-label">Copia y pega esto en Claude o en Cursor</p>
+<pre><code>Contexto: App React Native (Expo, TypeScript) de fitness gamificada llamada Heeal.
+Los usuarios compiten entre si en duelos de entrenamiento. El sistema de avatares
+gamifica el progreso deportivo: entrenar da XP al avatar.
+
+Problema a resolver: el onboarding actual (paso 1: nombre, paso 2: elegir avatar)
+tiene una activacion del 45%. El 55% de los usuarios que se registran nunca llegan
+a hacer su primer duelo, que es donde esta la propuesta de valor real de la app.
+
+Objetivo: Generar el componente ExpressDuelOnboarding.tsx.
+Este componente es la variante experimental del onboarding. En lugar de pedir
+nombre y avatar, muestra directamente un duelo contra un bot para que el usuario
+experimente el core loop antes de cualquier friccion de configuracion.
+
+Lo que debe mostrar el componente:
+1. Un badge superior: "Duelo expres"
+2. Titulo: "Listo para tu primer duelo?"
+3. Subtitulo: "Te hemos emparejado con un rival de tu nivel. Gana 500 XP
+   y desbloquea una skin exclusiva."
+4. Una tarjeta del rival con: emoji robot, nombre "Bot_Alpha", nivel "Nivel 3 - 1.200 XP"
+5. Boton principal: "Aceptar duelo" que navega a 'Duel' con navigation.replace
+6. Enlace de skip: "Ahora no, gracias" que navega a 'Dashboard' con navigation.replace
+
+Restricciones:
+- StyleSheet de React Native (sin librerias de styling externas)
+- Paleta de colores de Heeal: fondo #0d0d1a, acento principal #00CC66,
+  naranja para urgencia/badges #FF6B00, texto blanco #ffffff, secundario #aaaaaa
+- El componente recibe { navigation }: any como prop (React Navigation)
+- Usar replace en lugar de navigate para que no se pueda volver al onboarding
+
+Formato de respuesta: componente completo listo para copiar en ExpressDuelOnboarding.tsx.
+No incluir explicaciones despues del codigo, solo el componente.</code></pre>
+
+  <div class="callout callout-info">
+    <strong>Variacion</strong>
+    Si quieres que el rival sea mas humano, cambia el prompt: "rival real de la comunidad (usuario anonimo, nivel 5, 2.300 XP)". El <code>navigation.replace</code> es intencional: evita que el usuario pueda navegar "atras" al onboarding.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2 id="prompt3">4. Prompt 3 &mdash; Modal premium con social proof</h2>
+
+<div class="prompt-card">
+  <div class="prompt-header">
+    <span class="prompt-number">Prompt 3</span>
+    <span class="prompt-time">~25 segundos con Claude</span>
+  </div>
+  <p><strong>Cuando usarlo:</strong> Para generar la variante experimental del modal de conversion a premium (Experimento 2).</p>
+
+  <p class="code-label">Copia y pega esto en Claude o en Cursor</p>
+<pre><code>Contexto: App React Native (Expo, TypeScript) de fitness gamificada llamada Heeal.
+El modelo de negocio es freemium: plan gratuito con limites (2 duelos/semana, 3 meses
+de historial) y plan premium a 4,99 EUR/mes con todo ilimitado.
+
+Problema a resolver: la conversion a premium es del 3%. El modal actual muestra solo
+una lista de features ("duelos ilimitados", "historial completo", "avatares exclusivos").
+Los usuarios no convierten porque no tienen contexto suficiente para decidir.
+
+Objetivo: Anadir la logica del modal premium con social proof a Dashboard.tsx.
+El modal debe leer su configuracion desde Statsig (useDynamicConfig) para que
+el Growth Manager pueda modificarla sin nuevo deploy.
+
+Lo que debe mostrar el modal cuando esta en la variante experimental:
+1. Badge de social proof: "4.8 - 12.847 usuarios premium"
+2. Titulo dinamico (desde config): "Unite a 12.847 usuarios premium"
+3. Subtitulo: "Desbloquea todo el potencial de Heeal"
+4. Comparativa Free vs Premium con 3 filas:
+   - "Duelos semanales": Free limitados / Premium ilimitados
+   - "Historial": Free 3 meses / Premium completo
+   - "Avatares": Free basicos / Premium exclusivos
+5. CTA dinamico (desde config): "Comenzar prueba gratis"
+6. Texto de urgencia: "3 dias gratis - Oferta por tiempo limitado"
+7. Link de dismiss: "Seguir en free"
+
+Integracion con Statsig:
+- Feature gate: useFeatureGate('premium_social_proof') -> activa la variante
+- Dynamic config: useDynamicConfig('premium_modal_config') con parametros:
+  - title (string): titulo del modal
+  - cta_text (string): texto del boton principal
+  - show_social_proof (boolean): muestra el badge de usuarios
+  - show_urgency (boolean): muestra el texto de urgencia
+  - show_comparison (boolean): muestra la tabla Free vs Premium
+- Log de evento: client.logEvent('premium_purchased', { source: 'modal',
+  variant: 'social_proof' | 'control' })
+
+Restricciones:
+- StyleSheet de React Native, sin librerias externas
+- Paleta: fondo del modal #1a1a2e, acento #00CC66, urgencia #FF6B00, blanco #fff
+- El modal ya existe en Dashboard.tsx como &lt;Modal visible={modalVisible}&gt;
+- La integracion con Statsig (imports) ya esta hecha -- solo necesito el JSX
+  del contenido del modal y las lineas de configuracion (const title = config.get(...))
+
+Formato de respuesta: solo las partes que cambian en Dashboard.tsx.</code></pre>
+
+  <div class="callout callout-tip">
+    <strong>Tip para la practica</strong>
+    Mostrar primero el modal en "control" (todos los parametros en false) y despues en "variante" para que el contraste sea visible. El evento <code>premium_purchased</code> es el que Statsig usa para calcular el lift del experimento.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<h2 id="prompt4">5. Prompt 4 &mdash; Conectar el feature gate</h2>
+
+<div class="prompt-card">
+  <div class="prompt-header">
+    <span class="prompt-number">Prompt 4</span>
+    <span class="prompt-time">El PR que hace dev una sola vez</span>
+  </div>
+  <p><strong>Cuando usarlo:</strong> Para conectar el feature flag de Statsig al punto de decision del onboarding.</p>
+
+  <p class="code-label">Copia y pega esto en Claude o en Cursor</p>
+<pre><code>Contexto: App React Native (Expo, TypeScript) con React Navigation.
+Tenemos dos versiones del onboarding:
+- ClassicOnboarding.tsx: el onboarding clasico (nombre + avatar, 2 pasos)
+- ExpressDuelOnboarding.tsx: variante experimental (duelo expres inmediato)
+
+La app ya tiene Statsig integrado con StatsigProvider en App.tsx.
+
+Objetivo: Modificar AppNavigator.tsx para que el feature gate 'onboarding_express_duel'
+de Statsig decida que onboarding mostrar a cada usuario.
+
+Comportamiento esperado:
+- Si el gate esta activo para el usuario -> mostrar ExpressDuelOnboarding
+- Si el gate esta inactivo -> mostrar ClassicOnboarding (comportamiento por defecto)
+
+Implementacion:
+- Usar useFeatureGate('onboarding_express_duel') de @statsig/react-bindings
+- La consulta debe hacerse dentro del componente AppNavigator
+
+Restricciones:
+- No crear un archivo nuevo -- solo modificar AppNavigator.tsx
+- El nombre de la ruta puede ser 'Onboarding' (generico)
+- Mantener las rutas 'Dashboard' y 'Duel' sin cambios
+
+Formato de respuesta: AppNavigator.tsx completo modificado.</code></pre>
+
+  <h4>Resultado clave</h4>
+<pre><code>// En AppNavigator.tsx
+const { value: showExpressDuel } = useFeatureGate('onboarding_express_duel');
+
+// En el Stack.Navigator:
+&lt;Stack.Screen
+  name="Onboarding"
+  component={showExpressDuel ? ExpressDuelOnboarding : ClassicOnboarding}
+/&gt;</code></pre>
+
+  <div class="callout callout-info">
+    <strong>Por que este PR es "el unico"</strong>
+    Una vez que este cambio esta en produccion, el Growth Manager puede activar/desactivar el experimento, cambiar el porcentaje de usuarios, segmentar por pais o plataforma, y crear nuevas variantes -- todo desde la consola de Statsig, sin que el equipo de dev intervenga.
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<!-- SETUP STATSIG -->
+<h2 id="setup">6. Setup de Statsig &mdash; Paso a paso</h2>
+
+<h3>1. Crear cuenta</h3>
+<p>Ve a <strong>statsig.com</strong> &rarr; Get Started Free. El plan gratuito incluye 50.000 MAU, suficiente para empezar.</p>
+
+<h3>2. Obtener las dos claves</h3>
+
+<h4>Client SDK Key (para la app)</h4>
+<p><code>console.statsig.com &rarr; Settings &rarr; Keys & Environments &rarr; Client SDK Keys</code></p>
+<p>Copia la key con prefijo <code>client-...</code> y pegala en <code>src/config/statsig.ts</code></p>
+
+<h4>Console API Key (para MCP y scripts)</h4>
+<p><code>console.statsig.com &rarr; Settings &rarr; Keys & Environments &rarr; Console API Keys &rarr; Generate New Key</code></p>
+
+<div class="callout callout-warning">
+  <strong>Importante</strong>
+  La Console API Key <strong>nunca</strong> va en el codigo de la app. Guardala en variables de entorno o en la configuracion de tu IDE. Solo se usa para el MCP de Statsig o para scripts de automatizacion.
+</div>
+
+<h3>3. Configurar el MCP de Statsig (opcional, recomendado)</h3>
+<p>El MCP permite que Claude o cualquier IA con soporte MCP cree y gestione gates, configs y experimentos directamente desde el chat, sin abrir la consola.</p>
+
+<p class="code-label">Configuracion en Claude Desktop o en tu IDE</p>
+<pre><code>{
+  "mcpServers": {
+    "statsig": {
+      "command": "npx",
+      "args": ["-y", "statsig-mcp-server"],
+      "env": {
+        "STATSIG_CONSOLE_API_KEY": "console-TU-CONSOLE-KEY-AQUI"
+      }
+    }
+  }
+}</code></pre>
+
+<p><strong>Que puedes hacer con el MCP activo:</strong></p>
+<ul>
+  <li>"Crea un Dynamic Config llamado <code>challenge_config</code> con <code>time_limit: 60</code>"</li>
+  <li>"Actualiza <code>duel_config</code> para que <code>show_bonus_banner</code> sea <code>true</code>"</li>
+  <li>"Lista todos los Feature Gates del proyecto"</li>
+  <li>"Muestrame los resultados del experimento <code>onboarding_experiment</code>"</li>
+</ul>
+
+<h3>4. Crear Feature Gates</h3>
+<table>
+  <tr><th>Gate</th><th>Default</th><th>Proposito</th></tr>
+  <tr><td><code>onboarding_express_duel</code></td><td>false</td><td>Controla que version del onboarding se muestra</td></tr>
+  <tr><td><code>premium_social_proof</code></td><td>false</td><td>Controla que version del modal premium se muestra</td></tr>
+</table>
+
+<h3>5. Crear Dynamic Configs</h3>
+
+<p class="code-label">onboarding_config</p>
+<pre><code>{
+  "type": "classic",
+  "steps": 2,
+  "show_duel": false,
+  "xp_reward": 0
+}</code></pre>
+
+<p class="code-label">duel_config</p>
+<pre><code>{
+  "time_limit": 30,
+  "remaining_duels": 2,
+  "xp_reward": 50,
+  "cta_text": "Duel now!",
+  "show_bonus_banner": false,
+  "bonus_banner_text": "2x XP este fin de semana!"
+}</code></pre>
+
+<p class="code-label">premium_modal_config</p>
+<pre><code>{
+  "title": "Heeal Premium",
+  "cta_text": "Suscribirse - 4,99 EUR/mes",
+  "show_social_proof": false,
+  "show_urgency": false,
+  "show_comparison": false
+}</code></pre>
+
+<h3>6. Crear Experimentos</h3>
+<table>
+  <tr><th>Experimento</th><th>Division</th><th>Metrica primaria</th></tr>
+  <tr><td><code>onboarding_experiment</code></td><td>50/50</td><td><code>first_duel_completed</code></td></tr>
+  <tr><td><code>premium_experiment</code></td><td>50/50</td><td><code>premium_purchased</code></td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<!-- EXPERIMENTOS -->
+<h2 id="experiments">7. Configuracion de los dos experimentos</h2>
+
+<h3>Experimento 1: Onboarding con duelo expres</h3>
+<p><strong>Hipotesis:</strong> Si al registrarse mostramos un duelo instantaneo contra un bot con 500 XP, entonces la activacion aumentara del 45% al 65%.</p>
+
+<table>
+  <tr><th>Parametro</th><th>Control</th><th>Variante</th></tr>
+  <tr><td>type</td><td>classic</td><td>express_duel</td></tr>
+  <tr><td>steps</td><td>2</td><td>1</td></tr>
+  <tr><td>show_duel</td><td>false</td><td>true</td></tr>
+  <tr><td>xp_reward</td><td>0</td><td>500</td></tr>
+</table>
+
+<h3>Experimento 2: Modal premium con social proof</h3>
+<p><strong>Hipotesis:</strong> Si mostramos prueba social + urgencia + comparativa, entonces la conversion a premium aumentara del 3% al 6%.</p>
+
+<table>
+  <tr><th>Parametro</th><th>Control</th><th>Variante</th></tr>
+  <tr><td>title</td><td>Heeal Premium</td><td>Unite a 12.847 usuarios</td></tr>
+  <tr><td>cta_text</td><td>Suscribirse - 4,99 EUR/mes</td><td>Comenzar prueba gratis</td></tr>
+  <tr><td>show_social_proof</td><td>false</td><td>true</td></tr>
+  <tr><td>show_urgency</td><td>false</td><td>true</td></tr>
+  <tr><td>show_comparison</td><td>false</td><td>true</td></tr>
+</table>
+
+<!-- ============================================================ -->
+<div class="page-break"></div>
+
+<!-- SEGURIDAD -->
+<h2 id="security">8. Seguridad: claves y buenas practicas</h2>
+
+<div class="callout callout-warning">
+  <strong>Reglas de seguridad para API keys</strong>
+  <ul>
+    <li>La <strong>Client SDK Key</strong> (<code>client-...</code>) es de solo lectura. Va en el codigo de la app y es visible en el bundle. Esto es normal y esperado &mdash; solo puede leer gates y configs, no puede crear ni modificar nada.</li>
+    <li>La <strong>Console API Key</strong> (<code>console-...</code>) tiene permisos de escritura. <strong>Nunca</strong> la pongas en el codigo de la app ni la subas a un repositorio publico.</li>
+    <li>Si trabajas con la Console API Key, guardala en <strong>variables de entorno</strong> (<code>.env</code>) y asegurate de que <code>.env</code> esta en tu <code>.gitignore</code>.</li>
+    <li>Si crees que una Console API Key fue expuesta, <strong>rotala inmediatamente</strong> en <code>console.statsig.com &rarr; Settings &rarr; Keys & Environments</code>.</li>
+  </ul>
+</div>
+
+<h3>Checklist antes de subir codigo a un repo publico</h3>
+<ol>
+  <li>Verificar que <code>src/config/statsig.ts</code> usa un placeholder, no una key real</li>
+  <li>Verificar que no hay Console API Keys en ningun archivo</li>
+  <li>Verificar que <code>.gitignore</code> incluye <code>.env</code>, <code>.env.local</code> y <code>node_modules/</code></li>
+  <li>Buscar con <code>grep -r "console-" .</code> para detectar keys de consola filtradas</li>
+  <li>Revisar que no hay tokens de sesion, passwords ni credenciales en ningun archivo</li>
+</ol>
+
+<h3>Conceptos clave de Statsig para Growth Managers</h3>
+<table>
+  <tr><th>Concepto</th><th>Que es</th><th>Analogia</th></tr>
+  <tr>
+    <td><strong>Feature Gate</strong></td>
+    <td>Interruptor que decide si un usuario ve una feature o no</td>
+    <td>El portero del edificio</td>
+  </tr>
+  <tr>
+    <td><strong>Dynamic Config</strong></td>
+    <td>JSON remoto con parametros que la app lee en tiempo real</td>
+    <td>El mando a distancia del TV</td>
+  </tr>
+  <tr>
+    <td><strong>Experiment</strong></td>
+    <td>Asignacion aleatoria de usuarios a control vs variante</td>
+    <td>Un A/B test con calculo automatico de significancia</td>
+  </tr>
+  <tr>
+    <td><strong>MCP</strong></td>
+    <td>Protocolo que conecta la IA directamente a la API de Statsig</td>
+    <td>Claude opera la consola por ti</td>
+  </tr>
+</table>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>Experimentacion en APP</strong> &middot; Master en Growth &middot; PH School</p>
+  <p>Gonzalo Diaz &middot; Growth Manager &middot; Product Hackers</p>
+  <p style="margin-top: 8px; font-size: 11px;">Para generar el PDF: abre este archivo en el navegador &rarr; Cmd+P (Mac) o Ctrl+P (Windows) &rarr; "Guardar como PDF"</p>
+</div>
+
+</body>
+</html>
