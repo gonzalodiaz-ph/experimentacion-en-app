@@ -78,7 +78,7 @@ Heeal es una app de fitness gamificada donde los usuarios compiten en duelos de 
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/gonzalodiaz-ph/experimentacion-en-app.git
+git clone https://github.com/TU-USUARIO/experimentacion-en-app.git
 cd experimentacion-en-app/heeal-app
 
 # 2. Instalar dependencias
@@ -112,14 +112,30 @@ Sigue la guia completa en [`statsig/setup-guide.md`](statsig/setup-guide.md). Re
 - `onboarding_express_duel` - controla que onboarding ve el usuario
 - `premium_social_proof` - controla que modal premium ve el usuario
 
+Las reglas de un gate se evaluan de arriba a abajo. Cada regla tiene condiciones (por user ID, email, pais, OS, etc.) y un porcentaje de pase. Usa el patron de canary rollout para lanzar gradualmente: `0% → 2% → 10% → 50% → 100%`.
+
 ### Dynamic Configs (mandos a distancia)
 - `onboarding_config` - parametros del onboarding (tipo, pasos, XP)
 - `duel_config` - parametros del duelo (tiempo, XP, banner bonus)
 - `premium_modal_config` - parametros del modal premium (titulo, CTA, social proof)
 
+Un Dynamic Config devuelve valores estructurados (strings, numeros, booleanos) que modificas sin deploy. Usa un gate cuando necesites on/off. Usa un config cuando necesites devolver valores que cambian.
+
 ### Experimentos
 - `onboarding_experiment` - 50/50, metrica: `first_duel_completed`
 - `premium_experiment` - 50/50, metrica: `premium_purchased`
+
+Cada experimento tiene metricas **primary** (decide si gana), **secondary** (explora efectos) y **guardrail** (protege lo que no debe empeorar). Ver detalles en [`statsig/experiment-setup.md`](statsig/experiment-setup.md).
+
+### Gate vs Experiment: cuando usar cada uno
+
+| | Feature Gate | Experiment |
+|---|---|---|
+| Variantes | 2 (pass/fail) | Cualquier numero |
+| Retorno | Booleano | JSON con parametros |
+| Para que | Rollout gradual, kill switch | Comparar variantes, medir impacto |
+
+En la practica se combinan: el gate filtra la audiencia → el experiment asigna a control/variante → si la variante gana, subes el gate al 100%.
 
 ---
 
@@ -145,6 +161,17 @@ Puedes conectar Claude o cualquier IA compatible con MCP directamente a tu cuent
 
 > La Console API Key se obtiene en `console.statsig.com > Settings > Keys & Environments > Console API Keys > Generate New Key`. Esta key **nunca** va en el codigo de la app; solo en tu entorno local (variables de entorno, config del IDE).
 
+### Que puede hacer el MCP
+
+| Categoria | Acciones |
+|---|---|
+| Feature Gates | Crear, listar, actualizar, ver historial, limpiar codigo obsoleto |
+| Dynamic Configs | Crear, actualizar, ver historial, listar con filtros |
+| Experiments | Crear, ver resultados y lifts, analizar por dimensiones |
+| Metrics | Listar fuentes, ver definiciones y configuraciones |
+| Segments | Crear segmentos (ID lists, reglas, listas de analisis) |
+| Logs | Consultar eventos raw, detectar anomalias |
+
 ### Ejemplo de uso
 
 ```
@@ -158,12 +185,16 @@ Claude (via MCP): Config creado exitosamente en Statsig.
 
 | Recurso | Link |
 |---|---|
-| Statsig Docs | [console.statsig.com/docs](https://console.statsig.com/docs) |
+| Statsig Docs | [docs.statsig.com](https://docs.statsig.com) |
+| Feature Flags overview | [docs.statsig.com/feature-flags/overview](https://docs.statsig.com/feature-flags/overview) |
+| Experiments overview | [docs.statsig.com/experiments-plus/overview](https://docs.statsig.com/experiments-plus/overview) |
 | React Native SDK | [@statsig/react-bindings](https://www.npmjs.com/package/@statsig/react-bindings) |
 | Statsig MCP Server | [statsig-mcp-server](https://www.npmjs.com/package/statsig-mcp-server) |
 | Cheatsheet | [`docs/cheatsheet-alumnos.md`](docs/cheatsheet-alumnos.md) |
 | Los 4 prompts | [`prompts/`](prompts/) |
 | Setup Statsig | [`statsig/setup-guide.md`](statsig/setup-guide.md) |
+| Config de experimentos | [`statsig/experiment-setup.md`](statsig/experiment-setup.md) |
+| Guia completa (HTML/PDF) | [`docs/Guia-Referencia-Experimentacion-APP.html`](docs/Guia-Referencia-Experimentacion-APP.html) |
 
 ---
 
