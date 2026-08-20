@@ -21,6 +21,25 @@
 | **Dynamic Config** | JSON remoto con parámetros | El mando a distancia del TV | Necesitas cambiar textos, números o configuración sin deploy |
 | **Experiment** | Asignación aleatoria a control/variante | Un test clínico controlado | Necesitas medir el impacto causal de un cambio |
 
+### ¿Gate o Experiment?
+
+| | Gate | Experiment |
+|---|---|---|
+| Variantes | 2 (pass/fail) | Cualquier número |
+| Retorno | Booleano | JSON con parámetros |
+| Tráfico | Pass % ajustable (1%-99%) | Allocation % + split equitativo |
+| Para qué | Rollout gradual, kill switch | Comparar variantes, medir impacto |
+
+**En la práctica se combinan**: el gate filtra la audiencia → el experiment asigna a control/variante → si gana, subes el gate al 100%.
+
+### Patrón de canary rollout
+
+```
+0% → 2% → 10% → 50% → 100%
+```
+
+En cada paso, revisa métricas de usuario y sistema antes de avanzar.
+
 ---
 
 ## APIs de Statsig que usarás
@@ -177,17 +196,29 @@ Regla 3: todos los demás                     →   0% pass  (todavía no)
 7. Verificar health checks (SRM, crossover, events)
 8. Leer resultados (lift, p-value, confianza)
 9. Promocionar ganador o descartar
-10. Limpiar el flag
+10. Limpiar el flag y el código condicional
+
+### Después del test
+
+| Si ganó la variante | Si perdió o fue inconcluso |
+|---|---|
+| Gate al 100% → todos ven la variante | Gate al 0% → desactivar |
+| Actualizar Dynamic Config con valores ganadores | Documentar el learning |
+| Cerrar el experimento | Formular nueva hipótesis |
+| Eliminar lógica condicional del código | Limpiar código de la variante |
+| Borrar el gate de la consola | Borrar el gate de la consola |
 
 ---
 
 ## Buenas prácticas
 
 ✅ Prefijos en nombres: `exp_onboarding_express_duel`
-✅ Un propósito por flag
+✅ Un propósito por flag (no controlar múltiples features con un solo gate)
 ✅ Fecha de expiración en cada flag
-✅ Limpiar flags al terminar
+✅ Limpiar flags al terminar (eliminar del código Y de la consola)
 ✅ Remote Config para todo lo mutable (texto, números, colores)
+✅ Gatear código nuevo aunque no esté listo (deploy inactivo, activa cuando esté OK)
+✅ Ship en main con el gate apagado — evita branches largos
 ✅ Definir hipótesis y métricas ANTES de mirar resultados
 ✅ Pocas métricas clave (más de 5 = hipótesis difusa)
 

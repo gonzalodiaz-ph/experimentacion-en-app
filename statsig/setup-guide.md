@@ -38,10 +38,27 @@ STATSIG_CONSOLE_API_KEY=console-tu-key npx -y statsig-mcp-server
 ```
 
 **Lo que puedes hacer con el MCP activo:**
+
+| Categoría | Ejemplos de comandos |
+|---|---|
+| **Feature Gates** | Crear, listar, actualizar, ver historial de versiones, limpiar código obsoleto |
+| **Dynamic Configs** | Crear, actualizar, ver historial, listar con filtros |
+| **Experiments** | Crear, ver resultados y lifts, analizar por dimensiones, iniciar cleanup |
+| **Autotunes** | Crear experimentos multi-armed bandit con brazos y variantes |
+| **Layers** | Crear y gestionar capas de experimentos paralelos |
+| **Metrics** | Listar fuentes de métricas, ver definiciones y configuraciones |
+| **Segments** | Crear segmentos (ID lists, reglas, listas de análisis) |
+| **Logs** | Consultar eventos raw, agrupar patrones, detectar anomalías |
+| **Reviews** | Flujo de aprobación: crear, editar, aprobar, rechazar, commitear |
+
+Ejemplos concretos:
 - "Crea un Dynamic Config llamado `challenge_config` con `time_limit: 60`"
 - "Actualiza `duel_config` para que `show_bonus_banner` sea `true`"
 - "Lista todos los Feature Gates del proyecto"
 - "Muéstrame los resultados del experimento `onboarding_experiment`"
+- "Identifica gates obsoletos que ya no se usan en el código"
+
+> **Permisos**: usuarios read-only pueden usar todas las herramientas de lectura. Las herramientas de escritura requieren una API key con permisos de escritura.
 
 ---
 
@@ -71,11 +88,82 @@ Cada regla tiene:
 
 **Overrides**: Puedes forzar pass/fail para usuarios específicos desde la consola (útil para QA). Estos usuarios no se cuentan en el análisis del experimento.
 
+### Crear un gate en la consola (paso a paso)
+
+1. `console.statsig.com → Feature Management → Feature Gates → Create`
+2. Completa **nombre** (ej: `onboarding_express_duel`) y **descripción**
+3. El gate nace en `false` sin reglas — bloquea a todos hasta que configures targeting
+4. Click **+ Add New Rule** y dale un nombre descriptivo (ej: "Mobile Users Only")
+5. Configura:
+   - **Environment(s)**: staging o production
+   - **Criteria**: las condiciones de targeting
+   - **Split %**: porcentaje de usuarios que cumplen la condición y pasan
+   - **Overrides**: lista de usuarios que siempre pasan (bypass para QA)
+6. **Save** (no hay auto-save)
+
+> Las reglas se evalúan de arriba a abajo. Puedes arrastrarlas para reordenar o insertar entre ellas.
+
+### Patrón de canary rollout
+
+El patrón recomendado por Statsig para lanzar gradualmente:
+
+```
+0% → 2% → 10% → 50% → 100%
+```
+
+En cada paso, monitorea métricas de usuario (retención, conversión, DAU/WAU) y métricas de sistema (error rates, latencia, CPU). Solo avanza al siguiente porcentaje si todo está OK.
+
 ### Ejemplo: rollout gradual del onboarding
 
 1. Regla 1: equipo interno (emails `@producthackers.com`) → 100% pass
 2. Regla 2: usuarios de España → 50% pass (lanzamiento gradual)
 3. Regla 3: resto del mundo → 0% pass (todavía no)
+
+### Best practices para Feature Gates
+
+- **Un propósito por gate**: usar un gate para controlar múltiples features dificulta el debugging
+- **Gatear código nuevo aunque no esté listo**: despliega inactivo y activa cuando las dependencias estén OK
+- **Ship rápido en main**: evita branches largos; el gate mantiene el código inactivo en producción
+- **Validar con usuarios de confianza**: expón la feature primero al equipo, empleados y beta testers
+- **Limpiar gates obsoletos**: cuando dejes de consultar un gate, elimínalo del código y bórralo de la consola
+- **Auditoría**: mantén logs de todas las modificaciones de gates del equipo
+
+---
+
+## 3b. Feature Gate vs Experiment: cuándo usar cada uno
+
+| | Feature Gate | Experiment |
+|---|---|---|
+| **Variantes** | 2 (pass / fail) | Cualquier número (A, B, C, D...) |
+| **Retorno** | Booleano (true/false) | JSON con parámetros por variante |
+| **Tráfico** | Pass % ajustable (1%, 10%, 99%) | Allocation % + split equitativo (máx 50/50) |
+| **Propósito** | Rollout gradual + kill switch | Comparar variantes y medir impacto causal |
+
+### Cuándo usar un gate
+
+- Lanzar una feature única con rollout progresivo
+- Necesitas un kill switch para desactivar rápido
+- Quieres targeting de audiencia antes de enrollar en un experimento
+- Control simple on/off para un code path
+
+### Cuándo usar un experiment
+
+- Comparar múltiples opciones (textos, diseños, flujos)
+- Necesitas medir el impacto causal en métricas específicas
+- Quieres análisis dimensional (por país, plataforma, segmento)
+- Correr tests paralelos aislados con layers
+
+### Flujo combinado (gate + experiment)
+
+En la práctica usas ambos juntos en 3 pasos:
+
+```
+1. Targeting gate → filtra la audiencia elegible
+2. Allocation %   → decide cuántos de esa audiencia participan en el test
+3. Split %        → distribuye participantes entre control y variante(s)
+```
+
+**Después del test**: si la variante gana, levantas el targeting gate al 100% para que todos reciban la experiencia ganadora. Así es como funcionan nuestros dos experimentos de Heeal.
 
 ---
 

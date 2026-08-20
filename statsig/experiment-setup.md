@@ -117,3 +117,48 @@ Cuando el experimento haya acumulado suficientes exposiciones, ve a la pestaña 
 - **Confundir ratio con absoluto**: una tasa de conversión puede subir mientras las conversiones absolutas bajan (si el denominador cayó)
 
 > **Regla de oro**: un resultado estadísticamente significativo debe tener una **explicación plausible**. Si el lift no tiene sentido lógico, probablemente es un falso positivo.
+
+---
+
+## Después del test: qué hacer con el ganador
+
+### Si la variante gana
+
+1. **Promocionar**: sube el targeting gate al 100% para que todos reciban la experiencia ganadora
+2. **Actualizar el Dynamic Config** con los valores de la variante como nuevos defaults
+3. **Cerrar el experimento** en la consola
+4. **Limpiar el código**: elimina la lógica condicional del gate y deja solo el código ganador
+5. **Borrar el gate** de la consola cuando el cleanup esté desplegado
+
+### Si la variante pierde o es inconcluso
+
+1. **Desactivar el gate** (volver a 0%)
+2. **Documentar el learning**: qué aprendimos y por qué no funcionó
+3. **Iterar**: formular una nueva hipótesis basada en los datos del test
+4. **Limpiar el código** de la variante perdedora
+
+### Flujo combinado gate + experiment (cómo funciona en Heeal)
+
+```
+┌─────────────────────┐
+│  Targeting Gate      │  onboarding_express_duel
+│  (filtra audiencia)  │  → ¿quién es elegible?
+└─────────┬───────────┘
+          │
+┌─────────▼───────────┐
+│  Allocation %        │  onboarding_experiment
+│  (cuántos entran)    │  → 100% de los elegibles participan
+└─────────┬───────────┘
+          │
+    ┌─────▼─────┐
+    │  Split %  │  50% control / 50% variante
+    └─────┬─────┘
+          │
+  ┌───────▼───────┐
+  │  Resultados   │  Lift + significancia → decisión
+  └───────┬───────┘
+          │
+  ┌───────▼───────────────────┐
+  │  Ganador → Gate al 100%   │  Todos ven la experiencia ganadora
+  └───────────────────────────┘
+```
